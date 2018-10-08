@@ -1,0 +1,29 @@
+#!/bin/sh
+
+# Make a backup of all my PostgreSQL databases
+
+DATE=`date "+%Y-%m-%dT%H-%M-%S"`
+
+echo Starting to process the backups
+
+for DB in `psql -l | grep '|' | cut -d'|' -f 1`
+do
+  case $DB in
+    "Name")
+      # This is the column header
+      ;;
+    "template0"|"template1"|"postgres")
+      # We ignore these internal files
+      ;;
+    *test)
+      # Ignore the test files
+      ;;
+    *)
+      echo Backup to $DB.$DATE.backup;
+      pg_dump -F c -f $DB.$DATE.backup $DB;
+      ;;
+  esac
+done
+
+echo Finished processing the backups
+

@@ -1,0 +1,21 @@
+#!/bin/sh
+
+# Given a database backup this will load it fresh for
+# you. Does not yet handle tennis correctly
+
+BACKUP=$1
+
+if [ -z "$BACKUP" ]
+then
+    echo "Needs a PostgreSQL dump file as imput"
+    exit 0
+fi
+
+BASE=`basename $BACKUP | sed 's/_.*//'`
+NAME=${BASE}_development
+
+echo Loading backup into $NAME
+
+dropdb $NAME
+createdb $NAME
+pg_restore -O -F c -d $NAME $BACKUP

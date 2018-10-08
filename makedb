@@ -1,0 +1,56 @@
+#!/bin/sh
+
+# Creates the correct database.yml file for my system
+
+if [ ! -d 'config' ]; then
+    echo "There is no config directory here"
+    exit 1
+fi
+
+if [ -r 'config/database.yml' ]; then
+    echo "The config/database.yml file already exists"
+    exit 1
+fi
+
+PWD=`pwd`
+NAME=`basename $PWD | tr '-' '_'`
+
+cat > config/database.yml <<DOCSTRING
+development:
+  adapter: postgresql
+  encoding: unicode
+  database: ${NAME}_development
+  pool: 5
+  host: localhost
+  port: 5432
+  reconnect: true
+  username: $USER
+  password:
+  schema_search_path: public
+
+test:
+  adapter: postgresql
+  encoding: unicode
+  database: ${NAME}_test
+  pool: 5
+  host: localhost
+  port: 5432
+  reconnect: true
+  username: $USER
+  password:
+  schema_search_path: public
+
+production:
+  adapter: postgresql
+  encoding: unicode
+  database: ${NAME}_production
+  pool: 5
+  host: localhost
+  port: 5432
+  reconnect: true
+  username: $USER
+  password:
+  schema_search_path: public
+DOCSTRING
+
+echo "Created config/database.yml"
