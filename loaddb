@@ -15,7 +15,7 @@ BASE=`basename $BACKUP | sed 's/\..*//' | awk '{ split($0, a, "_"); if (a[3] == 
 NAME=${BASE}_development
 
 echo Loading backup into $NAME
-exit
+
 dropdb $NAME
 createdb $NAME
 pg_restore -O -F c -d $NAME $BACKUP
