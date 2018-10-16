@@ -11,11 +11,11 @@ then
     exit 0
 fi
 
-BASE=`basename $BACKUP | sed 's/_.*//'`
+BASE=`basename $BACKUP | sed 's/\..*//' | awk '{ split($0, a, "_"); if (a[3] == "") { print a[1] } else { print a[1] "_" a[2] } }'`
 NAME=${BASE}_development
 
 echo Loading backup into $NAME
-
+exit
 dropdb $NAME
 createdb $NAME
 pg_restore -O -F c -d $NAME $BACKUP
