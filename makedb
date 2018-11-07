@@ -12,8 +12,8 @@ if [ -r 'config/database.yml' ]; then
     exit 1
 fi
 
-PWD=`pwd`
-NAME=`basename $PWD | tr '-' '_'`
+PWD=$(pwd)
+NAME=$(basename $PWD | tr '-' '_')
 
 cat > config/database.yml <<DOCSTRING
 development:

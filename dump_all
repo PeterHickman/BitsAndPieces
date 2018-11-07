@@ -2,11 +2,11 @@
 
 # Make a backup of all my PostgreSQL databases
 
-DATE=`date "+%Y-%m-%dT%H-%M-%S"`
+DATE=$(date "+%Y-%m-%dT%H-%M-%S")
 
 echo Starting to process the backups
 
-for DB in `psql -l | grep '|' | cut -d'|' -f 1`
+for DB in $(psql -l | grep '|' | cut -d'|' -f 1)
 do
   case $DB in
     "Name")
