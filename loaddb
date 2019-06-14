@@ -10,8 +10,7 @@ if [ -z "$BACKUP" ]; then
     exit 0
 fi
 
-BASE=$(basename $BACKUP | sed 's/\_production.*//')
-NAME=${BASE}_development
+NAME=$(basename $BACKUP | sed 's/\_production.*/_development/')
 
 if [ $? = 0 ]; then
   EXISTING=$(psql -l | grep $NAME)
